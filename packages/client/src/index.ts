@@ -22,14 +22,33 @@ const provider = new ethers.providers.JsonRpcProvider(options.provider, {
   ensAddress,
 });
 
+// TODO:
+// - Fix getAddress for non-ethereum blockchains
+// - Fix twitter account fetching
 (async () => {
   const [name] = program.args;
-  let [resolver, resolveName] = await Promise.all([
+  let [resolver /*, resolveName*/] = await Promise.all([
     provider.getResolver(name),
     provider.resolveName(name),
   ]);
   if (resolver) {
-    console.log(`resolver address ${resolver.address}`);
-    console.log(`eth address ${resolveName}`);
+    const [
+      ethAddress,
+      // btcAddress,
+      dogeAddress,
+    ] = await Promise.all([
+      resolver.getAddress(),
+      // resolver.getAddress(0),
+      resolver.getAddress(3),
+    ]);
+    console.log(`ethAddress address ${ethAddress}`);
+    // console.log(`btc address ${btcAddress}`);
+    console.log(`doge address ${dogeAddress}`);
+
+    // const resolverName = await resolver.name;
+    // const twitterAccount = await resolver.getText('com.twitter');
+    // console.log(`provider name ${resolveName}`);
+    // console.log(`resolver name ${resolverName}`);
+    // console.log(`twitter account ${twitterAccount}`);
   }
 })();
