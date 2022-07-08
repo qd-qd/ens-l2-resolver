@@ -1,5 +1,8 @@
 const { ethers } = require("hardhat");
-const { formatsByCoinType } = require("@ensdomains/address-encoder");
+const {
+  formatsByCoinType,
+  formatsByName,
+} = require("@ensdomains/address-encoder");
 
 /*
  ** This script set additional informations for the qdqd.eth node.
@@ -9,6 +12,11 @@ module.exports = async ({ deployments }) => {
   const [, owner] = await ethers.getSigners();
   const node = ethers.utils.namehash("qdqd.eth");
 
+  // console.log(
+  //   "decoder",
+  //   formatsByName[0].decoder("bc1q8fnmuy9cfzmym062a93cuqh2l8l0p46gxy74pg")
+  // );
+
   // Set BITCOIN address
   await deployments.execute(
     "L2PublicResolver",
@@ -17,18 +25,6 @@ module.exports = async ({ deployments }) => {
     node,
     0,
     formatsByCoinType[0].decoder("bc1q8fnmuy9cfzmym062a93cuqh2l8l0p46gxy74pg")
-  );
-
-  // Set COSMOS address
-  await deployments.execute(
-    "L2PublicResolver",
-    { from: owner.address, log: true },
-    "setAddr(bytes32,uint256,bytes)",
-    node,
-    118,
-    formatsByCoinType[118].decoder(
-      "cosmos1g6n59apjxwk0lpah9aax6sfszsht7ycfnsg7cv"
-    )
   );
 
   // Set DOGE address

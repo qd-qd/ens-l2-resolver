@@ -27,7 +27,7 @@ const provider = new ethers.providers.JsonRpcProvider(options.provider, {
 // - Fix twitter account fetching
 (async () => {
   const [name] = program.args;
-  let [resolver, resolveName] = await Promise.all([
+  let [resolver /*, resolveName*/] = await Promise.all([
     provider.getResolver(name),
     provider.resolveName(name),
   ]);
@@ -35,22 +35,20 @@ const provider = new ethers.providers.JsonRpcProvider(options.provider, {
     const [
       ethAddress,
       // btcAddress,
-      //   , dogeAddress, cosmosAddress
+      dogeAddress,
     ] = await Promise.all([
       resolver.getAddress(),
       // resolver.getAddress(0),
-      //   resolver.getAddress(3),
-      //   resolver.getAddress(118),
+      resolver.getAddress(3),
     ]);
-    console.log(`eth address ${ethAddress}`);
+    console.log(`ethAddress address ${ethAddress}`);
     // console.log(`btc address ${btcAddress}`);
-    // console.log(`doge address ${dogeAddress}`);
-    // console.log(`cosmos address ${cosmosAddress}`);
+    console.log(`doge address ${dogeAddress}`);
 
-    const resolverName = await resolver.name;
-    const twitterAccount = await resolver.getText('com.twitter');
-    console.log(`provider name ${resolveName}`);
-    console.log(`resolver name ${resolverName}`);
-    console.log(`twitter account ${twitterAccount}`);
+    // const resolverName = await resolver.name;
+    // const twitterAccount = await resolver.getText('com.twitter');
+    // console.log(`provider name ${resolveName}`);
+    // console.log(`resolver name ${resolverName}`);
+    // console.log(`twitter account ${twitterAccount}`);
   }
 })();

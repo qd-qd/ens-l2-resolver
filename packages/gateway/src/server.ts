@@ -26,9 +26,11 @@ export function makeServer(signer: ethers.utils.SigningKey) {
       type: 'resolve',
       func: async ([encodedName, data]: Result, request) => {
         const name = decodeDnsName(Buffer.from(encodedName.slice(2), 'hex'));
+        const tx = Resolver.parseTransaction({ data });
+        const { signature, args } = tx;
 
-        const resolvedAddress = await resolve(name);
-        const { signature } = Resolver.parseTransaction({ data });
+        const resolvedAddress = await resolve(name, signature, args);
+
         const result = Resolver.encodeFunctionResult(signature, [
           resolvedAddress,
         ]);

@@ -1,5 +1,3 @@
-const { ethers } = require("hardhat");
-
 // @DEV paste here the address printed by `yarn start:gateway`
 const owner = "0x83EAD75c0191c3184CaAd30FF8061e89f9d851a1";
 
